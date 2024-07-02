@@ -392,13 +392,10 @@
         </form>
         <div id="result"></div>
         <div class="footer">
-            <span id="visitorCount">Visitors: 0</span> | &copy; Anantha Abhijeet
+            &copy; Anantha Abhijeet
         </div>
     </div>
     <script>
-        let visitorCount = localStorage.getItem('visitorCount') || 0;
-        document.getElementById('visitorCount').innerText = `Visitors: ${++visitorCount}`;
-        localStorage.setItem('visitorCount', visitorCount);
 
         function toggleDarkMode() {
             const body = document.body;
