@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subject {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        label {
+            font-weight: 600;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            flex: 1;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .toggle-mode {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .container {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .subject {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .dark-mode select {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        .dark-mode button {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        .dark-mode #result {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .dark-mode .footer {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .dark-mode .toggle-mode {
+            color: #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .subject {
+                flex-direction: column;
+                align-items: start;
+            }
+
+            label {
+                margin-bottom: 5px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-mode {
+                font-size: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            button {
+                padding: 12px;
+            }
+
+            #result {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toggle-mode" onclick="toggleDarkMode()">
+        <i id="themeIcon" class="fas fa-moon"></i>
+    </div>
+    <div class="container">
+        <h1>CGPA Tracker</h1>
+        <form id="cgpaForm">
+            <div class="subject">
+                <label for="CSPP">Computer Science Principles and Programming (8 credits)</label>
+                <select id="CSPP">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="WAD">Web App Development (8 credits)</label>
+                <select id="WAD">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="ADS">Algorithms and Data Structures (8 credits)</label>
+                <select id="ADS">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="ICS">Computer Systems (4 credits)</label>
+                <select id="ICS">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="PSC">Principles of Software Construction (4 credits)</label>
+                <select id="PSC">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="LSRW1">LSRW Development Skills - 1 (1 credit)</label>
+                <select id="LSRW1">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="BS">Behavioral Skills (1 credit)</label>
+                <select id="BS">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="LSRW2">LSRW Development Skills – II (1 credit)</label>
+                <select id="LSRW2">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="BL">Business Literacy (1 credit)</label>
+                <select id="BL">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="TW">Technical Writing (1 credit)</label>
+                <select id="TW">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="CAP">Career Advancement Program (1 credit)</label>
+                <select id="CAP">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="SC1">Specialization Course 1 (4 credits)</label>
+                <select id="SC1">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="SC2">Specialization Course 2 (4 credits)</label>
+                <select id="SC2">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="SC3">Specialization Course 3 (4 credits)</label>
+                <select id="SC3">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="SC4">Specialization Course 4 (4 credits)</label>
+                <select id="SC4">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="PC">Programming Contest (2 credits)</label>
+                <select id="PC">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="PS">Problem Solving (2 credits)</label>
+                <select id="PS">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="PPS">Presentations and Public Speaking Activities (2 credits)</label>
+                <select id="PPS">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <div class="subject">
+                <label for="IN">Internship (16 credits)</label>
+                <select id="IN">
+                    <option value="N/A">Not Applicable</option>
+                    <option value="7">B+</option>
+                    <option value="8">A</option>
+                    <option value="9">A+</option>
+                    <option value="10">Ex</option>
+                </select>
+            </div>
+            <button type="button" onclick="calculateCGPA()">Calculate CGPA</button>
+        </form>
+        <div id="result"></div>
+        <div class="footer">
+            <span id="visitorCount">Visitors: 0</span> | &copy; Anantha Abhijeet
+        </div>
+    </div>
+    <script>
+        let visitorCount = localStorage.getItem('visitorCount') || 0;
+        document.getElementById('visitorCount').innerText = `Visitors: ${++visitorCount}`;
+        localStorage.setItem('visitorCount', visitorCount);
+
+        function toggleDarkMode() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+
+        function calculateCGPA() {
+            const subjects = [
+                { id: 'CSPP', credits: 8 },
+                { id: 'WAD', credits: 8 },
+                { id: 'ADS', credits: 8 },
+                { id: 'ICS', credits: 4 },
+                { id: 'PSC', credits: 4 },
+                { id: 'LSRW1', credits: 1 },
+                { id: 'BS', credits: 1 },
+                { id: 'LSRW2', credits: 1 },
+                { id: 'BL', credits: 1 },
+                { id: 'TW', credits: 1 },
+                { id: 'CAP', credits: 1 },
+                { id: 'SC1', credits: 4 },
+                { id: 'SC2', credits: 4 },
+                { id: 'SC3', credits: 4 },
+                { id: 'SC4', credits: 4 },
+                { id: 'PC', credits: 2 },
+                { id: 'PS', credits: 2 },
+                { id: 'PPS', credits: 2 },
+                { id: 'IN', credits: 16 }
+            ];
+
+            let totalCredits = 0;
+            let totalGradePoints = 0;
+            let includedCourses = [];
+
+            subjects.forEach(subject => {
+                const grade = document.getElementById(subject.id).value;
+                if (grade !== 'N/A') {
+                    totalCredits += subject.credits;
+                    totalGradePoints += subject.credits * parseInt(grade);
+                    includedCourses.push(subject.id);
+                }
+            });
+
+            const cgpa = (totalGradePoints / totalCredits).toFixed(2);
+            document.getElementById('result').innerHTML = `CGPA: ${isNaN(cgpa) ? 0 : cgpa}<br>Courses included: ${includedCourses.join(', ')}`;
+        }
+    </script>
+</body>
+</html>
